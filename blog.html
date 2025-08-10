@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog | BINO.inc</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style_optimized.css" />
+  <script defer src="performance.js"></script>
+  <script defer src="script.js"></script>
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-red: #ff1744;
+      --secondary-red: #e53935;
+      --dark-bg: #0a0a0a;
+      --darker-bg: #050505;
+      --text-light: #ffffff;
+      --text-gray: #cccccc;
+      --text-muted: #888888;
+      --accent-blue: #00d4ff;
+      --gradient-primary: linear-gradient(135deg, #ff1744 0%, #e53935 100%);
+      --gradient-secondary: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--dark-bg);
+      color: var(--text-light);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      line-height: 1.6;
+      padding-top: 120px;
+    }
+
+    /* Navigation */
+    .main-header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 23, 68, 0.2);
+    }
+
+    .logo {
+      width: 80px;
+      margin: 0 auto 10px;
+      display: block;
+      filter: drop-shadow(0 0 10px var(--primary-red));
+    }
+
+    .main-header nav ul {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      list-style: none;
+      padding: 0;
+    }
+
+    .main-header nav ul li a {
+      color: var(--text-gray);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .main-header nav ul li a:hover,
+    .main-header nav ul li a.active {
+      color: var(--primary-red);
+      text-shadow: 0 0 10px var(--primary-red);
+    }
+
+    .main-header nav ul li a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--gradient-primary);
+      transition: width 0.3s ease;
+    }
+
+    .main-header nav ul li a:hover::after,
+    .main-header nav ul li a.active::after {
+      width: 100%;
+    }
+
+    /* Page Header */
+    .page-header {
+      text-align: center;
+      padding: 80px 20px;
+      background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9)), url('hero-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .page-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 900;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 20px;
+    }
+
+    .page-subtitle {
+      font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+      color: var(--accent-blue);
+      font-weight: 600;
+    }
+
+    /* Blog Section */
+    .blog-section {
+      padding: 80px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(2rem, 4vw, 2.5rem);
+      margin-bottom: 60px;
+      background: var(--gradient-secondary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 40px;
+      margin-bottom: 80px;
+    }
+
+    .blog-card {
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+      border: 1px solid rgba(255, 23, 68, 0.2);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      position: relative;
+    }
+
+    .blog-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 23, 68, 0.1), transparent);
+      transition: left 0.5s ease;
+      z-index: 1;
+    }
+
+    .blog-card:hover::before {
+      left: 100%;
+    }
+
+    .blog-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--primary-red);
+      box-shadow: 0 20px 40px rgba(255, 23, 68, 0.2);
+    }
+
+    .blog-image {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .blog-image::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, rgba(255, 23, 68, 0.3), rgba(0, 212, 255, 0.3));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .blog-card:hover .blog-image::after {
+      opacity: 1;
+    }
+
+    .blog-content {
+      padding: 30px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .blog-meta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .blog-date {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .blog-category {
+      background: rgba(0, 212, 255, 0.2);
+      color: var(--accent-blue);
+      padding: 3px 12px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      border: 1px solid rgba(0, 212, 255, 0.3);
+    }
+
+    .blog-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: var(--text-light);
+      line-height: 1.4;
+    }
+
+    .blog-excerpt {
+      color: var(--text-gray);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .read-more {
+      color: var(--primary-red);
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .read-more:hover {
+      color: var(--accent-blue);
+      transform: translateX(5px);
+    }
+
+    /* Featured Article */
+    .featured-article {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      min-height: 400px;
+    }
+
+    .featured-article .blog-image {
+      height: 100%;
+    }
+
+    .featured-article .blog-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 50px;
+    }
+
+    .featured-article .blog-title {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .featured-article .blog-excerpt {
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+    }
+
+    /* Newsletter Section */
+    .newsletter-section {
+      background: var(--darker-bg);
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    .newsletter-content {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .newsletter-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .newsletter-description {
+      color: var(--text-gray);
+      margin-bottom: 40px;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 15px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .newsletter-input {
+      flex: 1;
+      padding: 15px 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 23, 68, 0.3);
+      border-radius: 50px;
+      color: var(--text-light);
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .newsletter-input:focus {
+      border-color: var(--primary-red);
+      box-shadow: 0 0 20px rgba(255, 23, 68, 0.3);
+    }
+
+    .newsletter-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .newsletter-button {
+      padding: 15px 30px;
+      background: var(--gradient-primary);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .newsletter-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(255, 23, 68, 0.4);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--darker-bg);
+      text-align: center;
+      padding: 60px 20px 40px;
+      border-top: 1px solid rgba(255, 23, 68, 0.2);
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .social-icons a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(145deg, rgba(255, 23, 68, 0.1), rgba(255, 23, 68, 0.2));
+      border: 1px solid var(--primary-red);
+      border-radius: 50%;
+      color: var(--primary-red);
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .social-icons a:hover {
+      background: var(--gradient-primary);
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(255, 23, 68, 0.4);
+    }
+
+    .copyright {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 20px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .blog-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      
+      .featured-article {
+        grid-template-columns: 1fr;
+      }
+      
+      .featured-article .blog-content {
+        padding: 30px;
+      }
+      
+      .newsletter-form {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="main-header">
+    <img src="BINO.png" alt="BINO Logo" class="logo" />
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="portfolio.html">Portfolio</a></li>
+        <li><a href="blog.html" class="active">Blog</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <h1 class="page-title">Tech Insights</h1>
+    <p class="page-subtitle">Latest Ideas & Industry News</p>
+  </section>
+
+  <!-- Blog Section -->
+  <section class="blog-section">
+    <h2 class="section-title">Recent Articles</h2>
+    <div class="blog-grid">
+      
+      <!-- Featured Article -->
+      <article class="blog-card featured-article">
+        <div class="blog-image" style="background-image: url('cybersecurity-bg.jpg')"></div>
+        <div class="blog-content">
+          <div class="blog-meta">
+            <span class="blog-date">
+              <i class="fas fa-calendar"></i>
+              January 2025
+            </span>
+            <span class="blog-category">Technology Trends</span>
+          </div>
+          <h3 class="blog-title">The Future of Cybersecurity in 2025</h3>
+          <p class="blog-excerpt">
+            Explore the emerging cybersecurity trends and technologies that will shape digital protection strategies in 2025. From AI-powered threat detection to quantum-resistant encryption, discover what businesses need to know to stay secure.
+          </p>
+          <a href="#" class="read-more">
+            Read Full Article <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </article>
+
+      <!-- Article 2 -->
+      <article class="blog-card">
+        <div class="blog-image" style="background-image: url('hero-bg.jpg')"></div>
+        <div class="blog-content">
+          <div class="blog-meta">
+            <span class="blog-date">
+              <i class="fas fa-calendar"></i>
+              December 2024
+            </span>
+            <span class="blog-category">Business Strategy</span>
+          </div>
+          <h3 class="blog-title">Digital Transformation Success Stories</h3>
+          <p class="blog-excerpt">
+            Learn from real-world examples of successful digital transformation initiatives and discover the key strategies that drive business innovation and growth.
+          </p>
+          <a href="#" class="read-more">
+            Read More <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </article>
+
+      <!-- Article 3 -->
+      <article class="blog-card">
+        <div class="blog-image" style="background-image: url('teamwork-bg.jpg')"></div>
+        <div class="blog-content">
+          <div class="blog-meta">
+            <span class="blog-date">
+              <i class="fas fa-calendar"></i>
+              November 2024
+            </span>
+            <span class="blog-category">Development</span>
+          </div>
+          <h3 class="blog-title">Building Scalable Web Applications</h3>
+          <p class="blog-excerpt">
+            A comprehensive guide to developing web applications that can handle growth, featuring best practices for architecture, performance optimization, and user experience.
+          </p>
+          <a href="#" class="read-more">
+            Read More <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </article>
+
+      <!-- Article 4 -->
+      <article class="blog-card">
+        <div class="blog-image" style="background-image: url('cybersecurity-bg.jpg')"></div>
+        <div class="blog-content">
+          <div class="blog-meta">
+            <span class="blog-date">
+              <i class="fas fa-calendar"></i>
+              October 2024
+            </span>
+            <span class="blog-category">Innovation</span>
+          </div>
+          <h3 class="blog-title">AI Integration in Modern Business</h3>
+          <p class="blog-excerpt">
+            Discover how artificial intelligence is revolutionizing business operations and learn practical approaches to implementing AI solutions in your organization.
+          </p>
+          <a href="#" class="read-more">
+            Read More <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </article>
+
+      <!-- Article 5 -->
+      <article class="blog-card">
+        <div class="blog-image" style="background-image: url('hero-bg.jpg')"></div>
+        <div class="blog-content">
+          <div class="blog-meta">
+            <span class="blog-date">
+              <i class="fas fa-calendar"></i>
+              September 2024
+            </span>
+            <span class="blog-category">Security</span>
+          </div>
+          <h3 class="blog-title">Essential Security Practices for Startups</h3>
+          <p class="blog-excerpt">
+            A practical guide for startup founders on implementing essential cybersecurity measures without breaking the budget or slowing down development.
+          </p>
+          <a href="#" class="read-more">
+            Read More <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </article>
+
+      <!-- Article 6 -->
+      <article class="blog-card">
+        <div class="blog-image" style="background-image: url('teamwork-bg.jpg')"></div>
+        <div class="blog-content">
+          <div class="blog-meta">
+            <span class="blog-date">
+              <i class="fas fa-calendar"></i>
+              August 2024
+            </span>
+            <span class="blog-category">Project Management</span>
+          </div>
+          <h3 class="blog-title">Agile Development in Remote Teams</h3>
+          <p class="blog-excerpt">
+            Explore effective strategies for implementing agile methodologies in distributed teams and maintaining productivity in remote work environments.
+          </p>
+          <a href="#" class="read-more">
+            Read More <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="newsletter-section">
+    <div class="newsletter-content">
+      <h2 class="newsletter-title">Stay Updated</h2>
+      <p class="newsletter-description">
+        Subscribe to our newsletter and get the latest insights on technology, innovation, and digital transformation delivered to your inbox.
+      </p>
+      <form class="newsletter-form">
+        <input type="email" class="newsletter-input" placeholder="Enter your email address" required>
+        <button type="submit" class="newsletter-button">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="social-icons">
+      <a href="mailto:bino89921@gmail.com" title="Email">
+        <i class="fas fa-envelope"></i>
+      </a>
+      <a href="https://www.instagram.com/bino.inc" target="_blank" title="Instagram">
+        <i class="fab fa-instagram"></i>
+      </a>
+    </div>
+    <p class="copyright">&copy; 2025 BINO.inc – All rights reserved</p>
+  </footer>
+
+</body>
+</html>
+
