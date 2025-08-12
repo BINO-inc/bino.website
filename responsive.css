@@ -1,0 +1,120 @@
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    /* Navigation */
+    nav {
+        flex-direction: column;
+        padding: 15px 20px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 15px;
+        display: none; /* Hidden by default, will be toggled by JS */
+        width: 100%;
+    }
+
+    nav ul.active {
+        display: flex;
+    }
+
+    nav ul li a {
+        padding: 10px 0;
+        text-align: center;
+        width: 100%;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    nav .logo {
+        margin: 0;
+    }
+
+    /* Hamburger menu icon */
+    .menu-icon {
+        display: block;
+        font-size: 24px;
+        color: var(--text-light);
+        cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero h1 {
+        font-size: 36px;
+    }
+
+    .hero h2 {
+        font-size: 20px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .btn {
+        padding: 12px 25px;
+        font-size: 16px;
+    }
+
+    /* Service and Portfolio Grids */
+    .service-grid, .portfolio-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .service-item, .portfolio-item {
+        margin-bottom: 20px;
+    }
+
+    /* Call to Action */
+    .cta h2 {
+        font-size: 30px;
+    }
+
+    .cta p {
+        font-size: 16px;
+    }
+
+    .social-links a {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        line-height: 40px;
+    }
+
+    /* Footer */
+    footer {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    nav {
+        padding: 10px 15px;
+    }
+
+    .hero h1 {
+        font-size: 28px;
+    }
+
+    .hero h2 {
+        font-size: 18px;
+    }
+
+    .hero p {
+        font-size: 14px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .cta h2 {
+        font-size: 24px;
+    }
+
+    .cta p {
+        font-size: 14px;
+    }
+}
+
+

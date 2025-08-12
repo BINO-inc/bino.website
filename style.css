@@ -57,6 +57,14 @@ nav ul {
   margin-top: 10px;
 }
 
+n    /* Hamburger menu icon */
+    .menu-icon {
+        display: none; /* Hidden by default on larger screens */
+        font-size: 24px;
+        color: var(--text-light);
+        cursor: pointer;
+    }
+
 /* Intro animation */
 .intro {
   position: fixed;
